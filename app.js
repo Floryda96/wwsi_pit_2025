@@ -4,12 +4,20 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
+const mongoose = require("mongoose");
+const session = require("express-session");
 
 const indexRouter = require("./routes/index");
-const aboutRouter = require("./routes/about");
 const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
+const dealsRouter = require("./routes/deals");
 
 const app = express();
+
+// Database setup
+mongoose.connect('mongodb://localhost/Projekt')
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -23,10 +31,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/about", indexRouter);
+// Session setup
+app.use(session({
+  secret: 'secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set to true if using https
+}));
 
+// Make user available in all templates
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
+app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/auth", authRouter);
+app.use("/deals", dealsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
