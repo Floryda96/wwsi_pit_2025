@@ -1,49 +1,66 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Deals</h1>
-    <!-- Future: Add 'Create Deal' button here if needed -->
 </div>
 
 <% if (!deals || deals.length===0) { %>
     <p class="text-center">No deals found.</p>
     <% } else { %>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Score</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="album py-5 bg-body-tertiary">
+            <div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <% deals.forEach(deal=> { %>
-                        <tr>
-                            <td>
-                                <%= deal.title %>
-                            </td>
-                            <td>
-                                <%= deal.category %>
-                            </td>
-                            <td>
-                                <%= deal.score %>
-                            </td>
-                            <td>
-                                <% if (deal.score> 10) { %>
-                                    <span class="badge bg-danger">Hot 🔥</span>
-                                    <% } else if (deal.score < -10) { %>
-                                        <span class="badge bg-info text-dark">Cold ❄️</span>
-                                        <% } else { %>
-                                            <span class="badge bg-secondary">Neutral</span>
-                                            <% } %>
-                            </td>
-                            <td>
-                                <a href="/deals/<%= deal._id %>" class="btn btn-primary btn-sm">Details</a>
-                            </td>
-                        </tr>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="<%= deal.imageUrl %>" style="height: 225px; object-fit: cover;"
+                                    alt="<%= deal.title %>">
+                                <div class="card-body">
+                                    <div style="font-weight: bold; font-size: 20px;">
+                                        <%= deal.title %>
+                                    </div>
+                                    <div style="font-size: 15px;">
+                                        <%= deal.category %>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <a href="/deals/<%= deal._id %>"
+                                            class="btn btn-sm btn-outline-secondary">Details</a>
+                                        <div>
+                                            <button style="border: none; background: none;"
+                                                onclick="vote('<%= deal._id %>', 1)">👍</button>
+                                            <button style="border: none; background: none;"
+                                                onclick="vote('<%= deal._id %>', -1)">👎</button>
+                                            <% if (deal.score> 10) { %>
+                                                <span class="badge bg-danger">Hot 🔥</span>
+                                                <% } else if (deal.score < -10) { %>
+                                                    <span class="badge bg-info text-dark">Cold ❄️</span>
+                                                    <% } else { %>
+                                                        <span class="badge bg-secondary">Neutral</span>
+                                                        <% } %>
+                                                            <small>
+                                                                <%= deal.score %>
+                                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <% }) %>
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
         <% } %>
+
+            <script>
+                function vote(dealId, value) {
+                    fetch(`/deals/vote/${dealId}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ vote: value })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                location.reload();
+                            }
+                        });
+                }
+            </script>

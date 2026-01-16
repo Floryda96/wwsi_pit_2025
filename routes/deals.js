@@ -13,6 +13,14 @@ router.get('/', async (req, res) => {
     }
 });
 
+// POST vote
+router.post('/vote/:id', async (req, res) => {
+    const deal = await Deal.findById(req.params.id);
+    deal.score = deal.score + req.body.vote;
+    await deal.save();
+    res.json({ success: true });
+});
+
 // GET Deal Details
 router.get('/:id', async (req, res) => {
     try {
