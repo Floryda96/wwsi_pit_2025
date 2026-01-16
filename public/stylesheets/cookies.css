@@ -1,0 +1,16 @@
+#cookiePolicyProject {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 1000;
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 20px;
+    left: 0;
+    font-weight: 400;
+}
+
+.cookies-info {
+    border-top: 2px solid #ccc;
+}

@@ -1,0 +1,128 @@
+  .white {
+      background-color: #fff;
+  }
+
+  .page-options {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+  }
+
+  #page-options {
+      /* margin: 0.3rem auto; */
+  }
+
+  #page-options .ui.basic.segment {
+      padding: 0;
+  }
+
+  #page-options button {
+      background: none;
+      border: none;
+      margin-left: 0.5rem;
+      cursor: pointer;
+  }
+
+  #page-options button[class*="font-"]:hover,
+  #page-options button[class*="font-"]:focus {
+      text-decoration: underline;
+      color: #517fce;
+  }
+
+  #page-options button.font-normal {
+      font-size: 0.7rem;
+  }
+
+  #page-options button.font-bigger {
+      font-size: 0.8rem;
+  }
+
+  #page-options button.font-biggest {
+      font-size: 0.9rem;
+  }
+
+  #page-options button.contrast-version {
+      padding: 0 0.3em;
+      font-size: 0.9rem;
+      border: 1px solid #000;
+  }
+
+  #page-options button.contrast-version.contrast-one {
+      background: #fff !important;
+      color: #000 !important;
+  }
+
+  #page-options button.contrast-version.contrast-two {
+      background: #000;
+      color: #fff;
+  }
+
+
+  html {
+      font-size: 14px;
+  }
+
+  html * {
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  html.font-normal {
+      font-size: 16px;
+  }
+
+  html.font-bigger {
+      font-size: 18px;
+  }
+
+  html.font-biggest {
+      font-size: 20px;
+  }
+
+  .main.font-normal {
+      font-size: 16px;
+  }
+
+  .main.font-bigger {
+      font-size: 18px;
+  }
+
+  .main.font-biggest {
+      font-size: 20px;
+  }
+
+  html.color-contrast *,
+  html.color-contrast *:after,
+  html.color-contrast *:before,
+  html.color-contrast *::placeholder {
+      background: none !important;
+      background-color: #000 !important;
+      color: #fff !important;
+      box-shadow: none !important;
+  }
+
+  html.color-contrast input,
+  html.color-contrast button,
+  html.color-contrast .grid.celled .column,
+  html.color-contrast .modal {
+      border: 1px solid #fff !important;
+  }
+
+  html.color-contrast input:focus,
+  html.color-contrast button:focus,
+  html.color-contrast .grid.celled .column:focus,
+  html.color-contrast .modal:focus {
+      outline: #ff0 solid 2px !important;
+  }
+
+  html.color-contrast a {
+      text-decoration: underline !important;
+  }
+
+  html.color-contrast a:focus {
+      outline: #ff0 solid 2px !important;
+  }
+
+  html.color-contrast h3.ui.header {
+      text-decoration: none;
+  }

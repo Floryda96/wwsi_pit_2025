@@ -3,15 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.render("index", {
-    layout: "./Layouts/empty",
+  res.render("Pages/index", {
+    layout: "./Layouts/layout",
     title: "Express",
     welcome: "Hello World!",
   });
 });
 
 router.get("/about", function (req, res, next) {
-  res.render("about", {
+  res.render("Pages/about", {
     layout: "./Layouts/layout",
     title: "About",
     welcome: "Hello World!",
