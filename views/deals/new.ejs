@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Create New Deal</h1>
+
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    <% errors.forEach(error => { %>
+                        <li><%= error %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
+
+        <form method="POST" action="/deals">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title *</label>
+                <input type="text" class="form-control" id="title" name="title"
+                    value="<%= formData.title || '' %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description *</label>
+                <textarea class="form-control" id="description" name="description" rows="4"
+                    required><%= formData.description || '' %></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="imageUrl" class="form-label">Image URL *</label>
+                <input type="url" class="form-control" id="imageUrl" name="imageUrl"
+                    placeholder="https://example.com/image.jpg"
+                    value="<%= formData.imageUrl || '' %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category *</label>
+                <input type="text" class="form-control" id="category" name="category"
+                    value="<%= formData.category || '' %>" required>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Create Deal</button>
+                <a href="/deals" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h2 class="card-title">Tip Details</h2>
+                    <% if (tip.status === 'new') { %>
+                        <span class="badge bg-primary fs-5">New</span>
+                    <% } else if (tip.status === 'processed') { %>
+                        <span class="badge bg-success fs-5">Processed</span>
+                    <% } else if (tip.status === 'rejected') { %>
+                        <span class="badge bg-danger fs-5">Rejected</span>
+                    <% } %>
+                </div>
+
+                <div class="mb-3">
+                    <strong>URL:</strong><br>
+                    <a href="<%= tip.url %>" target="_blank" rel="noopener noreferrer"><%= tip.url %></a>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Message:</strong>
+                    <p class="card-text"><%= tip.message %></p>
+                </div>
+
+                <% if (tip.email) { %>
+                    <div class="mb-3">
+                        <strong>Email:</strong><br>
+                        <a href="mailto:<%= tip.email %>"><%= tip.email %></a>
+                    </div>
+                <% } %>
+
+                <div class="mb-3">
+                    <small class="text-muted">Submitted on <%= new Date(tip.dateAdded).toLocaleDateString() %></small>
+                </div>
+
+                <hr>
+
+                <div class="d-flex gap-2">
+                    <a href="/deals/new?url=<%= encodeURIComponent(tip.url) %>&description=<%= encodeURIComponent(tip.message) %>"
+                        class="btn btn-success">Create Deal from Tip</a>
+                    <form method="POST" action="/tips/<%= tip._id %>/delete" class="d-inline"
+                        onsubmit="return confirm('Are you sure you want to delete this tip?')">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a href="/tips" class="btn btn-outline-secondary">Back to Tips</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

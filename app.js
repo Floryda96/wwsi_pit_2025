@@ -11,12 +11,17 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const dealsRouter = require("./routes/deals");
+const tipsRouter = require("./routes/tips");
+const seed = require("./seed");
 
 const app = express();
 
 // Database setup
 mongoose.connect('mongodb://localhost/Projekt')
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => {
+    console.log('MongoDB Connected');
+    seed().catch(err => console.error('[seed] Error:', err));
+  })
   .catch(err => console.log(err));
 
 // view engine setup
@@ -49,6 +54,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/deals", dealsRouter);
+app.use("/tips", tipsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

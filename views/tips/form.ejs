@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Submit a Tip</h1>
+        <p class="text-muted">Found a great deal? Let us know about it!</p>
+
+        <% if (success) { %>
+            <div class="alert alert-success">
+                Thank you! Your tip has been submitted successfully.
+            </div>
+        <% } else { %>
+            <% if (errors.length > 0) { %>
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        <% errors.forEach(error => { %>
+                            <li><%= error %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form method="POST" action="/tips">
+                <div class="mb-3">
+                    <label for="url" class="form-label">Deal URL *</label>
+                    <input type="url" class="form-control" id="url" name="url"
+                        placeholder="https://example.com/deal"
+                        value="<%= formData.url || '' %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message *</label>
+                    <textarea class="form-control" id="message" name="message" rows="4"
+                        maxlength="500" placeholder="Describe the deal..."
+                        required><%= formData.message || '' %></textarea>
+                    <div class="form-text">Max 500 characters</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email (optional)</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        placeholder="your@email.com"
+                        value="<%= formData.email || '' %>">
+                    <div class="form-text">We'll notify you if your tip becomes a deal</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Tip</button>
+            </form>
+        <% } %>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Deal = require('../models/Deal');
+const { isLoggedIn } = require('../middleware/auth');
 
 // GET All Deals
 router.get('/', async (req, res) => {
@@ -19,6 +20,39 @@ router.post('/vote/:id', async (req, res) => {
     deal.score = deal.score + req.body.vote;
     await deal.save();
     res.json({ success: true });
+});
+
+// GET New Deal Form
+router.get('/new', isLoggedIn, (req, res) => {
+    const formData = {
+        title: '',
+        description: req.query.description || '',
+        imageUrl: req.query.url || '',
+        category: ''
+    };
+    res.render('deals/new', { title: 'Create Deal', errors: [], formData, layout: './Layouts/layout' });
+});
+
+// POST Create Deal
+router.post('/', isLoggedIn, async (req, res) => {
+    const { title, description, imageUrl, category } = req.body;
+    const formData = { title, description, imageUrl, category };
+
+    try {
+        const deal = new Deal({ title, description, imageUrl, category });
+        await deal.save();
+        res.redirect('/deals/' + deal._id);
+    } catch (err) {
+        const errors = [];
+        if (err.errors) {
+            for (const field in err.errors) {
+                errors.push(err.errors[field].message);
+            }
+        } else {
+            errors.push('An unexpected error occurred.');
+        }
+        res.render('deals/new', { title: 'Create Deal', errors, formData, layout: './Layouts/layout' });
+    }
 });
 
 // GET Deal Details
