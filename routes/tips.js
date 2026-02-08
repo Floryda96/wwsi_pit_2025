@@ -7,8 +7,18 @@ const { isLoggedIn } = require('../middleware/auth');
 router.get('/', async (req, res) => {
     if (req.session && req.session.user) {
         try {
-            const tips = await Tip.find({}).sort({ dateAdded: -1 });
-            res.render('tips/index', { title: 'Tips', tips, layout: './Layouts/layout' });
+            const allowedSortFields = ['dateAdded', 'status', 'url', 'message'];
+            const sort = allowedSortFields.includes(req.query.sort) ? req.query.sort : 'dateAdded';
+            const order = req.query.order === 'asc' ? 1 : -1;
+
+            const filter = {};
+            const statusFilter = req.query.status;
+            if (['new', 'processed', 'rejected'].includes(statusFilter)) {
+                filter.status = statusFilter;
+            }
+
+            const tips = await Tip.find(filter).sort({ [sort]: order });
+            res.render('tips/index', { title: 'Tips', tips, sort, order, statusFilter: statusFilter || '', layout: './Layouts/layout' });
         } catch (err) {
             console.error(err);
             res.status(500).send('Server Error');
